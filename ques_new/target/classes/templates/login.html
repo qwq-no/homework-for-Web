@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>用户登录</title>
+    <link rel="stylesheet" th:href="@{/style.css}">
+</head>
+<body>
+<div class="auth-container">
+    <h2>用户登录</h2>
+    <p th:text="${errorMessage}" class="error" th:if="${errorMessage}"></p>
+    <p th:text="${successMessage}" class="success" th:if="${successMessage}"></p>
+
+    <form action="/user/login" method="post">
+        <div class="form-group">
+            <label>用户名</label>
+            <input type="text" name="username" class="form-control" required>
+        </div>
+        <div class="form-group">
+            <label>密码</label>
+            <input type="password" name="password" class="form-control" required>
+        </div>
+        <div class="form-group">
+            <label>验证码</label>
+            <input type="text" name="captcha" class="form-control" required>
+            <img src="/captcha" alt="验证码" onclick="this.src='/captcha?'+Math.random()" style="margin-top: 10px; cursor: pointer;">
+        </div>
+        <button type="submit" class="btn">登录</button>
+    </form>
+
+    <p style="margin-top: 20px;">
+        没有账号？<a href="/user/register">点击注册</a>
+    </p>
+</div>
+</body>
+</html>

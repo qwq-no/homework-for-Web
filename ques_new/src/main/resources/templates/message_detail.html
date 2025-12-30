@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>[[${message.title}]] - 详情</title>
+    <link rel="stylesheet" th:href="@{/style.css}">
+</head>
+<body>
+<div class="container">
+    <a href="/room" class="btn" style="margin-bottom: 20px;">← 返回列表</a>
+
+    <!-- 消息详情 -->
+    <div class="message-detail">
+        <h2 th:text="${message.title}"></h2>
+        <p>发布者: <span th:text="${message.sender}"></span></p>
+        <p>发布时间: <span th:text="${#dates.format(message.time, 'yyyy-MM-dd HH:mm:ss')}"></span></p>
+        <div class="content" th:text="${message.content}"></div>
+    </div>
+
+    <!-- 评论列表 -->
+    <div class="comments-section">
+        <h3>评论区</h3>
+        <th:block th:each="comment : ${comments}">
+            <div class="comment-card">
+                <p>评论者: <span th:text="${comment.username}"></span></p>
+                <p>评论时间: <span th:text="${#dates.format(comment.time, 'yyyy-MM-dd HH:mm:ss')}"></span></p>
+                <p th:text="${comment.content}"></p>
+            </div>
+        </th:block>
+        <p th:if="${#lists.isEmpty(comments)}">暂无评论，快来抢沙发！</p>
+    </div>
+
+    <!-- 发布评论 -->
+    <div class="comment-form">
+        <h3>发表评论</h3>
+        <form action="/comment/submit" method="post">
+            <input type="hidden" name="messageId" th:value="${message.id}">
+            <div class="form-group">
+                <label>评论内容</label>
+                <textarea name="content" class="form-control" rows="3" required></textarea>
+            </div>
+            <button type="submit" class="btn">提交评论</button>
+        </form>
+    </div>
+</div>
+</body>
+</html>
